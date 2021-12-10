@@ -16,7 +16,7 @@ namespace TetrisX_2034569
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new frmCanvas());
         }
     }
 }
