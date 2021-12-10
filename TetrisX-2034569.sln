@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetrisX-2034569", "TetrisX-2034569\TetrisX-2034569.csproj", "{125EC30B-673A-41D7-AF8D-BAA03893D2FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetrisGameEngine", "TetrisGameEngine\TetrisGameEngine.csproj", "{134C28FC-8A26-490E-BFE0-3DEBC94509E8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{125EC30B-673A-41D7-AF8D-BAA03893D2FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{125EC30B-673A-41D7-AF8D-BAA03893D2FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{125EC30B-673A-41D7-AF8D-BAA03893D2FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{125EC30B-673A-41D7-AF8D-BAA03893D2FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{134C28FC-8A26-490E-BFE0-3DEBC94509E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{134C28FC-8A26-490E-BFE0-3DEBC94509E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{134C28FC-8A26-490E-BFE0-3DEBC94509E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{134C28FC-8A26-490E-BFE0-3DEBC94509E8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D69CF190-E9E8-4EE5-B33D-B5D2744D819B}
+	EndGlobalSection
+EndGlobal
