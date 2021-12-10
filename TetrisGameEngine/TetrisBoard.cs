@@ -159,6 +159,48 @@ namespace TetrisGameEngine
                     }
                 }
             }
+            CheckFullLines();
+        }
+
+        //checks all lines and if find any full, removes it
+        private void CheckFullLines()
+        {
+            bool isLineFull;
+            for(int y = Height - 1; y >= 0; y--)  //go through the lines from bottom up
+            {
+                isLineFull = true;
+                for(int x = 0; x < Width; x++) //go through that line pixel by pixel
+                {
+                    if (tetrisGrid[x, y] == BackgroundColor) //empty cell found, so line is not full
+                    {
+                        isLineFull = false;
+                    }
+                }
+                if (isLineFull)
+                {
+                    OmmitLine(y);
+                    AddScore();
+                }
+            }
+        }
+
+
+        //takes a line index and removes it
+        public void OmmitLine(int piY)
+        {
+            for(int y = piY; y > 0; y--) //start from that line and go up, till you reach the second line
+            {
+                for(int x = 0; x < Width; x++)
+                {
+                    tetrisGrid[x, y] = tetrisGrid[x, y - 1]; //change the color of each pixel to the color of the one on top of it
+                }
+            }
+
+            //make sure the first line is empty
+            for (int x = 0; x < Width; x++)
+            {
+                tetrisGrid[x, 0] = BackgroundColor;
+            }
         }
 
         public void MoveTetrimino(int piDeltaX, int piDeltaY)

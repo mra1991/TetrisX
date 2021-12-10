@@ -14,10 +14,10 @@ namespace TetrisX_2034569
     public partial class frmCanvas : Form
     {
         const int PIXEL_SIZE = 20; //how many real pixels on the screen is a square on our grid
-        const int LEFT_OFFSET_PIXELS = 200; //how many pixels from the left of the form is the grid drawn
+        const int LEFT_OFFSET_PIXELS = 250; //how many pixels from the left of the form is the grid drawn
         const int TOP_OFFSET_PIXELS = 15; //how many pixels from the top of the form is the grid drawn
-        TetrisBoard tetrisGame = new TetrisBoard(20, 35, 1);
-        const int UPDATE_EVERY_NTH_TICK = 15; //how many ticks of timer should there be between updates
+        TetrisBoard tetrisGame = new TetrisBoard(25, 39, 1);
+        const int UPDATE_EVERY_NTH_TICK = 10; //how many ticks of timer should there be between updates
         int tickCounter;
 
         public frmCanvas()
@@ -47,7 +47,7 @@ namespace TetrisX_2034569
             }
 
             //display the score the player
-            //lblScore.Text = "SCORE: " + tetrisGame.Score.ToString("D4");
+            lblScore.Text = "SCORE: " + tetrisGame.Score.ToString("D4");
         }
 
         private void PaintTetrimino(Graphics g)
