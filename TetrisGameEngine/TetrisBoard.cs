@@ -2,6 +2,7 @@
 //Mohammadreza Abolhassani 2034569      2021-12-10      Created the TetrisBoard object.
 //Mohammadreza Abolhassani 2034569      2023-03-09      Collision detection updated so that the tetriminos won't stick to the sides of the board anymore
 //Mohammadreza Abolhassani 2034569      2023-03-09      Tetrimino Rotation feature added
+//Mohammadreza Abolhassani 2034569      2023-03-09      Game over condition added
 
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace TetrisGameEngine
         private int giGravitySpeed; //how fast the tetrimino will move vertically if left alone
         private int giScore; //global integer for score 
         private Tetrimino currentTetrimino; //the current tetrimono the player has controll over
+        private bool gbGameOver; //is the game over or not
 
 
         //read only property for background color
@@ -26,6 +28,7 @@ namespace TetrisGameEngine
         public int Width { get => giWidth; private set => giWidth = value; }
         public int Height { get => giHeight; private set => giHeight = value; }
         public int GravitySpeed { get => giGravitySpeed; set => giGravitySpeed = value; }
+        public bool GameOver { get => gbGameOver; }
 
         //read only outside access to the grid
         public Color[,] TetrisGrid { get => tetrisGrid; }
@@ -36,16 +39,17 @@ namespace TetrisGameEngine
         public int Score { get => giScore; }
 
         //the dimentions of the grid are required to create the object. wind speed optional
-        public TetrisBoard(int piWidth, int piHeight, int piWindSpeed = 0)
+        public TetrisBoard(int piWidth, int piHeight, int piGravSpeed = 0)
         {
             this.giWidth = piWidth;
             this.giHeight = piHeight;
-            this.giGravitySpeed = piWindSpeed;
+            this.giGravitySpeed = piGravSpeed;
             InitializeBoard();
         }
         public void InitializeBoard()
         {
             giScore = 0; //reset score
+            gbGameOver = false; //make sure gemaOver is not true
 
             //create the array of color representing the grid
             tetrisGrid = new Color[giWidth, giHeight];
@@ -59,7 +63,7 @@ namespace TetrisGameEngine
                 }
             }
 
-            //generate a new balloon as currentBalloon
+            //generate a new tetrimino
             GenerateTetrimino();
         }
 
@@ -70,11 +74,6 @@ namespace TetrisGameEngine
 
         private bool DoesCollide(Tetrimino poTetrimino)
         {
-            //check for collision with the board's left and right boundaries
-            //if (poTetrimino.PosX < 0 || poTetrimino.PosX > (Width - poTetrimino.Width))
-            //{
-              //  return true;
-            //}
             //check for collision with the board's top and bottom boundaries
             if (poTetrimino.PosY < 0 || poTetrimino.PosY > (Height - poTetrimino.Height))
             {
@@ -99,58 +98,10 @@ namespace TetrisGameEngine
 
         private void GenerateTetrimino()
         {
-            Color randomColor = Color.Black;
-            //choose a random color for the new tetrimino
-            switch (Randomizer.RollDice())
-            {
-                case 1:
-                    randomColor = Color.Green;
-                    break;
-                case 2:
-                    randomColor = Color.Blue;
-                    break;
-                case 3:
-                    randomColor = Color.Yellow;
-                    break;
-                case 4:
-                    randomColor = Color.Red;
-                    break;
-                case 5:
-                    randomColor = Color.Orange;
-                    break;
-                case 6:
-                    randomColor = Color.Purple;
-                    break;
-                default:
-                    break;
-            }
-            //create a new tetrimono of random kind top at middle of the grid  
-            switch (Randomizer.Instance().Next(7))
-            {
-                case 1:
-                    currentTetrimino = new Itetrimino(Width / 2, 0, randomColor);
-                    break;
-                case 2:
-                    currentTetrimino = new Jtetrimino(Width / 2, 0, randomColor);
-                    break;
-                case 3:
-                    currentTetrimino = new Ltetrimino(Width / 2, 0, randomColor);
-                    break;
-                case 4:
-                    currentTetrimino = new Otetrimino(Width / 2, 0, randomColor);
-                    break;
-                case 5:
-                    currentTetrimino = new Stetrimino(Width / 2, 0, randomColor);
-                    break;
-                case 6:
-                    currentTetrimino = new Ttetrimino(Width / 2, 0, randomColor);
-                    break;
-                case 7:
-                    currentTetrimino = new Ztetrimino(Width / 2, 0, randomColor);
-                    break;
-                default:
-                    break;
-            }
+            //create a new tetrimono of random kind and color at top middle of the grid  
+            currentTetrimino = Tetrimino.GenerateRandomTetrimino(Width / 2);
+            if (DoesCollide(currentTetrimino))
+                gbGameOver = true;
         }
 
         private void MergeTetrimino()
@@ -222,7 +173,8 @@ namespace TetrisGameEngine
             //check for collision with the board's left and right boundaries
             if (tmpTetrimino.PosX < 0 || tmpTetrimino.PosX > (Width - tmpTetrimino.Width))
             {
-                return; //the tetrimono can't go there, but it is not a collision either
+                //the tetrimono can't go there, but it is not necessarily a collision
+                tmpTetrimino.PosX -= piDeltaX; //change back to original x position
             }
 
             //see if the fake tetrimino collides with the environment (previous objects left in the board or the edges of the board itself)
@@ -238,8 +190,8 @@ namespace TetrisGameEngine
             else
             {
                 //move the actual tetrimino
-                currentTetrimino.PosX += piDeltaX;
-                currentTetrimino.PosY += piDeltaY;
+                currentTetrimino.PosX = tmpTetrimino.PosX;
+                currentTetrimino.PosY = tmpTetrimino.PosY;
             }
         }
 

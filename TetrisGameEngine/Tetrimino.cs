@@ -64,5 +64,42 @@ namespace TetrisGameEngine
 
         //read only property for image array
         public Color[,] ImageGrid { get => imageGrid; }
+
+        public static Tetrimino GenerateRandomTetrimino(int piPosX)
+        {
+            //choose a random color for the new tetrimino
+            Color randomColor = Randomizer.GenerateRandomColor();
+
+            //create a new tetrimono of random kind top at the given x position 
+            Tetrimino newTetrimino;
+            switch (Randomizer.Instance().Next(7) + 1)
+            {
+                case 1:
+                    newTetrimino = new Itetrimino(piPosX, 0, randomColor);
+                    break;
+                case 2:
+                    newTetrimino = new Jtetrimino(piPosX, 0, randomColor);
+                    break;
+                case 3:
+                    newTetrimino = new Ltetrimino(piPosX, 0, randomColor);
+                    break;
+                case 4:
+                    newTetrimino = new Otetrimino(piPosX, 0, randomColor);
+                    break;
+                case 5:
+                    newTetrimino = new Stetrimino(piPosX, 0, randomColor);
+                    break;
+                case 6:
+                    newTetrimino = new Ttetrimino(piPosX, 0, randomColor);
+                    break;
+                case 7:
+                    newTetrimino = new Ztetrimino(piPosX, 0, randomColor);
+                    break;
+                default:
+                    newTetrimino = new Tetrimino(0, 0, 0, 0, randomColor);
+                    break;
+            }
+            return newTetrimino;
+        }
     }
 }

@@ -3,6 +3,7 @@
 //Mohammadreza Abolhassani 2034569      2023-03-09      Game pause/play feature added (uses space key)
 //Mohammadreza Abolhassani 2034569      2023-03-09      Game controls changed to arrow keys
 //Mohammadreza Abolhassani 2034569      2023-03-09      Keyboard hints added to the form
+//Mohammadreza Abolhassani 2034569      2023-03-09      Game over condition and restart button added
 
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace TetrisX_2034569
         const int LEFT_OFFSET_PIXELS = 250; //how many pixels from the left of the form is the grid drawn
         const int TOP_OFFSET_PIXELS = 15; //how many pixels from the top of the form is the grid drawn
         TetrisBoard tetrisGame = new TetrisBoard(25, 39, 1);
-        const int UPDATE_EVERY_NTH_TICK = 10; //how many ticks of timer should there be between updates
+        const int UPDATE_EVERY_NTH_TICK = 100; //how many ticks of timer should there be between updates
         int tickCounter;
         public bool isPaused { get => !tmrUpdate.Enabled; }
 
@@ -83,11 +84,22 @@ namespace TetrisX_2034569
 
         private void tmrUpdate_Tick(object sender, EventArgs e)
         {
-            tickCounter++;
-            if ((tickCounter % UPDATE_EVERY_NTH_TICK) == (UPDATE_EVERY_NTH_TICK - 1)) //every nth tick of the timer
+            if (tetrisGame.GameOver)
             {
-                tetrisGame.Updade(); //apply gravity to the tetrimino
-                this.Refresh(); //repaint screen by calling frmCanvas_Paint()
+                tmrUpdate.Enabled = false;
+                btnRestart.Visible = true;
+                btnRestart.Enabled = true;
+                lblGameOver.Visible = true;
+            }
+            else
+            {
+                tickCounter++;
+                tickCounter %= UPDATE_EVERY_NTH_TICK;
+                if (tickCounter == (UPDATE_EVERY_NTH_TICK - 1)) //every nth tick of the timer
+                {
+                    tetrisGame.Updade(); //apply gravity to the tetrimino
+                    this.Refresh(); //repaint screen by calling frmCanvas_Paint()
+                }
             }
         }
 
@@ -128,14 +140,27 @@ namespace TetrisX_2034569
                     }
                     break;
                 case Keys.Space:
-                    // activate/deactivate the timer to play/pause the game
-                    tmrUpdate.Enabled = !tmrUpdate.Enabled;
-                    lblPause.Visible = !lblPause.Visible;
+                    if (!tetrisGame.GameOver)
+                    {
+                        // activate/deactivate the timer to play/pause the game
+                        tmrUpdate.Enabled = !tmrUpdate.Enabled;
+                        lblPause.Visible = !lblPause.Visible;
+                    }
                     break;
                 default:
                     break;
             }
         }
 
+        private void btnRestart_Click(object sender, EventArgs e)
+        {
+            tetrisGame.InitializeBoard();
+            this.Refresh();
+            btnRestart.Visible = false;
+            btnRestart.Enabled = false;
+            lblGameOver.Visible = false;
+            lblPause.Visible = false;
+            tmrUpdate.Enabled = true;
+        }
     }
 }
