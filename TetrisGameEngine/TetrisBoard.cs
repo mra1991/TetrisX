@@ -1,5 +1,7 @@
 ﻿//Revision history
 //Mohammadreza Abolhassani 2034569      2021-12-10      Created the TetrisBoard object.
+//Mohammadreza Abolhassani 2034569      2023-03-09      Collision detection updated so that the tetriminos won't stick to the sides of the board anymore
+//Mohammadreza Abolhassani 2034569      2023-03-09      Tetrimino Rotation feature added
 
 using System;
 using System.Collections.Generic;
@@ -68,8 +70,13 @@ namespace TetrisGameEngine
 
         private bool DoesCollide(Tetrimino poTetrimino)
         {
-            //check for collision with the board boundaries
-            if (poTetrimino.PosX < 0 || poTetrimino.PosY < 0 || poTetrimino.PosX > (Width - poTetrimino.Width) || poTetrimino.PosY > (Height - poTetrimino.Height))
+            //check for collision with the board's left and right boundaries
+            //if (poTetrimino.PosX < 0 || poTetrimino.PosX > (Width - poTetrimino.Width))
+            //{
+              //  return true;
+            //}
+            //check for collision with the board's top and bottom boundaries
+            if (poTetrimino.PosY < 0 || poTetrimino.PosY > (Height - poTetrimino.Height))
             {
                 return true;
             }
@@ -212,6 +219,12 @@ namespace TetrisGameEngine
             tmpTetrimino.PosX += piDeltaX;
             tmpTetrimino.PosY += piDeltaY;
 
+            //check for collision with the board's left and right boundaries
+            if (tmpTetrimino.PosX < 0 || tmpTetrimino.PosX > (Width - tmpTetrimino.Width))
+            {
+                return; //the tetrimono can't go there, but it is not a collision either
+            }
+
             //see if the fake tetrimino collides with the environment (previous objects left in the board or the edges of the board itself)
             if (DoesCollide(tmpTetrimino))
             {
@@ -227,6 +240,26 @@ namespace TetrisGameEngine
                 //move the actual tetrimino
                 currentTetrimino.PosX += piDeltaX;
                 currentTetrimino.PosY += piDeltaY;
+            }
+        }
+
+        public void RotateTetrimino()
+        {
+            //create a temporary tetrimino copy
+            Tetrimino tmpTetrimino = currentTetrimino.Clone();
+
+            //move the fake tetrimino
+            tmpTetrimino.RotateClockwise();
+
+            //see if the fake tetrimino collides with the environment (previous objects left in the board or the edges of the board itself)
+            if (tmpTetrimino.PosX > (Width - tmpTetrimino.Width) || DoesCollide(tmpTetrimino))
+            {
+                return; //the tetrimono can't rotate
+            }
+            else
+            {
+                //move the actual tetrimino
+                currentTetrimino.RotateClockwise();
             }
         }
 

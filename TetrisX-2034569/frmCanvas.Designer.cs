@@ -30,45 +30,57 @@ namespace TetrisX_2034569
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.btnStart = new System.Windows.Forms.Button();
             this.tmrUpdate = new System.Windows.Forms.Timer(this.components);
             this.lblScore = new System.Windows.Forms.Label();
+            this.lblPause = new System.Windows.Forms.Label();
+            this.lblHint = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // btnStart
-            // 
-            this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStart.Location = new System.Drawing.Point(24, 12);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(147, 47);
-            this.btnStart.TabIndex = 0;
-            this.btnStart.Text = "Start";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // tmrUpdate
             // 
+            this.tmrUpdate.Enabled = true;
             this.tmrUpdate.Tick += new System.EventHandler(this.tmrUpdate_Tick);
             // 
             // lblScore
             // 
             this.lblScore.AutoSize = true;
             this.lblScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblScore.Location = new System.Drawing.Point(19, 106);
+            this.lblScore.Location = new System.Drawing.Point(12, 9);
             this.lblScore.Name = "lblScore";
             this.lblScore.Size = new System.Drawing.Size(152, 29);
             this.lblScore.TabIndex = 1;
             this.lblScore.Text = "Score: 0000";
+            // 
+            // lblPause
+            // 
+            this.lblPause.AutoSize = true;
+            this.lblPause.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPause.Location = new System.Drawing.Point(27, 70);
+            this.lblPause.Name = "lblPause";
+            this.lblPause.Size = new System.Drawing.Size(137, 29);
+            this.lblPause.TabIndex = 2;
+            this.lblPause.Text = "PAUSED ||";
+            this.lblPause.Visible = false;
+            // 
+            // lblHint
+            // 
+            this.lblHint.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHint.Location = new System.Drawing.Point(30, 429);
+            this.lblHint.Name = "lblHint";
+            this.lblHint.Size = new System.Drawing.Size(134, 248);
+            this.lblHint.TabIndex = 3;
+            this.lblHint.Text = "- Use [ARROW] keys to move and [ENTER] key to rotate your tetrimino.\r\n\r\n- Use [SP" +
+    "ACE] key to Pause/Play the game.\r\n";
             // 
             // frmCanvas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 545);
+            this.Controls.Add(this.lblHint);
+            this.Controls.Add(this.lblPause);
             this.Controls.Add(this.lblScore);
-            this.Controls.Add(this.btnStart);
-            this.KeyPreview = true;
             this.Name = "frmCanvas";
             this.Text = "Tetris - 2034569";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -81,10 +93,10 @@ namespace TetrisX_2034569
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Timer tmrUpdate;
         private System.Windows.Forms.Label lblScore;
+        private System.Windows.Forms.Label lblPause;
+        private System.Windows.Forms.Label lblHint;
     }
 }
 

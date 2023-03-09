@@ -1,5 +1,6 @@
 ﻿//Revision history
 //Mohammadreza Abolhassani 2034569      2021-12-10      Created the Jtetrimino object.
+//Mohammadreza Abolhassani 2034569      2023-03-09      Tetrimino Rotation feature added
 
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,12 @@ namespace TetrisGameEngine
 
         public override Tetrimino Clone()
         {
-            return new Jtetrimino(this.giPosX, this.giPosY, this.TetriminoColor);
+            //create a new tetrimino of the same type;
+            Jtetrimino tmpTetrimino = new Jtetrimino(this.giPosX, this.giPosY, this.TetriminoColor);
+            //match the state of rotation of the new tetrimino to this one
+            for (int i = 0; i < numOfRotations; i++)
+                tmpTetrimino.RotateClockwise();
+            return tmpTetrimino; // return the new tetrimino
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿//Revision history
 //Mohammadreza Abolhassani 2034569      2021-12-10      Created the Stetrimino object.
+//Mohammadreza Abolhassani 2034569      2023-03-09      Tetrimino Rotation feature added
+
 
 using System;
 using System.Collections.Generic;
@@ -23,7 +25,11 @@ namespace TetrisGameEngine
 
         public override Tetrimino Clone()
         {
-            return new Stetrimino(this.giPosX, this.giPosY, this.TetriminoColor);
+            Stetrimino tmpTetrimino = new Stetrimino(this.giPosX, this.giPosY, this.TetriminoColor);
+            //match the state of rotation of the new tetrimino to this one
+            for (int i = 0; i < numOfRotations; i++)
+                tmpTetrimino.RotateClockwise();
+            return tmpTetrimino; // return the new tetrimino
         }
     }
 }

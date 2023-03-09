@@ -1,4 +1,10 @@
-﻿using System;
+﻿//Revision history
+//Mohammadreza Abolhassani 2034569      2021-12-10      Created the frmCanvas object.
+//Mohammadreza Abolhassani 2034569      2023-03-09      Game pause/play feature added (uses space key)
+//Mohammadreza Abolhassani 2034569      2023-03-09      Game controls changed to arrow keys
+//Mohammadreza Abolhassani 2034569      2023-03-09      Keyboard hints added to the form
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,6 +25,7 @@ namespace TetrisX_2034569
         TetrisBoard tetrisGame = new TetrisBoard(25, 39, 1);
         const int UPDATE_EVERY_NTH_TICK = 10; //how many ticks of timer should there be between updates
         int tickCounter;
+        public bool isPaused { get => !tmrUpdate.Enabled; }
 
         public frmCanvas()
         {
@@ -86,32 +93,49 @@ namespace TetrisX_2034569
 
         private void frmCanvas_KeyDown(object sender, KeyEventArgs e)
         {
-            switch (e.KeyCode)
+            switch (e.KeyData)
             {
-                case Keys.A:
-                    tetrisGame.MoveTetrimino(-1, 0); //move tetrimino left
-                    this.Refresh(); //repaint screen by calling frmCanvas_Paint()
-                    tickCounter = 0; //wait for n timer ticks to update
+                case Keys.Left:
+                    if (!isPaused)
+                    {
+                        tetrisGame.MoveTetrimino(-1, 0); //move tetrimino left
+                        this.Refresh(); //repaint screen by calling frmCanvas_Paint()
+                        //tickCounter = 0; //wait for n timer ticks to update
+                    }
                     break;
-                case Keys.D:
-                    tetrisGame.MoveTetrimino(1, 0); //move tetrimino right
-                    this.Refresh(); //repaint screen by calling frmCanvas_Paint()
-                    tickCounter = 0; //wait for n frames to update
+                case Keys.Right:
+                    if (!isPaused)
+                    {
+                        tetrisGame.MoveTetrimino(1, 0); //move tetrimino right
+                        this.Refresh(); //repaint screen by calling frmCanvas_Paint()
+                        //tickCounter = 0; //wait for n frames to update
+                    }
                     break;
-                case Keys.S:
-                    tetrisGame.MoveTetrimino(0, 1); //move tetrimino down
-                    this.Refresh(); //repaint screen by calling frmCanvas_Paint()
-                    tickCounter = 0; //wait for n timer ticks to update
+                case Keys.Down:
+                    if (!isPaused)
+                    {
+                        tetrisGame.MoveTetrimino(0, 1); //move tetrimino down
+                        this.Refresh(); //repaint screen by calling frmCanvas_Paint()
+                        //tickCounter = 0; //wait for n timer ticks to update
+                    }
+                    break;
+                case Keys.Enter:
+                    if (!isPaused)
+                    {
+                        tetrisGame.RotateTetrimino(); //rotate tetrimino 90 degrees clockwise if possible
+                        this.Refresh(); //repaint screen by calling frmCanvas_Paint()
+                        //tickCounter = 0; //wait for n timer ticks to update
+                    }
+                    break;
+                case Keys.Space:
+                    // activate/deactivate the timer to play/pause the game
+                    tmrUpdate.Enabled = !tmrUpdate.Enabled;
+                    lblPause.Visible = !lblPause.Visible;
                     break;
                 default:
                     break;
             }
         }
 
-        private void btnStart_Click(object sender, EventArgs e)
-        {
-            //activate the timer to start the game
-            tmrUpdate.Enabled = true;
-        }
     }
 }
