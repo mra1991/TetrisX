@@ -36,6 +36,7 @@ namespace TetrisX_2034569
             this.lblHint = new System.Windows.Forms.Label();
             this.btnRestart = new System.Windows.Forms.Button();
             this.lblGameOver = new System.Windows.Forms.Label();
+            this.lblLevel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // tmrUpdate
@@ -101,12 +102,23 @@ namespace TetrisX_2034569
             this.lblGameOver.Text = "GAME OVER";
             this.lblGameOver.Visible = false;
             // 
+            // lblLevel
+            // 
+            this.lblLevel.AutoSize = true;
+            this.lblLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLevel.Location = new System.Drawing.Point(11, 38);
+            this.lblLevel.Name = "lblLevel";
+            this.lblLevel.Size = new System.Drawing.Size(133, 29);
+            this.lblLevel.TabIndex = 6;
+            this.lblLevel.Text = "LEVEL: 01";
+            // 
             // frmCanvas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1030, 674);
+            this.Controls.Add(this.lblLevel);
             this.Controls.Add(this.lblGameOver);
             this.Controls.Add(this.btnRestart);
             this.Controls.Add(this.lblHint);
@@ -130,6 +142,7 @@ namespace TetrisX_2034569
         private System.Windows.Forms.Label lblHint;
         private System.Windows.Forms.Button btnRestart;
         private System.Windows.Forms.Label lblGameOver;
+        private System.Windows.Forms.Label lblLevel;
     }
 }
 

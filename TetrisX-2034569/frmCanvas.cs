@@ -4,6 +4,7 @@
 //Mohammadreza Abolhassani 2034569      2023-03-09      Game controls changed to arrow keys
 //Mohammadreza Abolhassani 2034569      2023-03-09      Keyboard hints added to the form
 //Mohammadreza Abolhassani 2034569      2023-03-09      Game over condition and restart button added
+//Mohammadreza Abolhassani 2034569      2023-03-09      Level system added
 
 using System;
 using System.Collections.Generic;
@@ -24,8 +25,7 @@ namespace TetrisX_2034569
         const int LEFT_OFFSET_PIXELS = 250; //how many pixels from the left of the form is the grid drawn
         const int TOP_OFFSET_PIXELS = 15; //how many pixels from the top of the form is the grid drawn
         TetrisBoard tetrisGame = new TetrisBoard(25, 39, 1);
-        const int UPDATE_EVERY_NTH_TICK = 100; //how many ticks of timer should there be between updates
-        int tickCounter;
+        int tickCounter; //how many times has the timer ticked since last reset
         public bool isPaused { get => !tmrUpdate.Enabled; }
 
         public frmCanvas()
@@ -54,8 +54,11 @@ namespace TetrisX_2034569
                 }
             }
 
-            //display the score the player
+            //display the score to the player
             lblScore.Text = "SCORE: " + tetrisGame.Score.ToString("D4");
+
+            //display the level to the player
+            lblLevel.Text = "LEVEL: " + tetrisGame.Level.ToString("D2");
         }
 
         private void PaintTetrimino(Graphics g)
@@ -94,8 +97,8 @@ namespace TetrisX_2034569
             else
             {
                 tickCounter++;
-                tickCounter %= UPDATE_EVERY_NTH_TICK;
-                if (tickCounter == (UPDATE_EVERY_NTH_TICK - 1)) //every nth tick of the timer
+                tickCounter %= tetrisGame.TicksPerUpdate;
+                if (tickCounter == (tetrisGame.TicksPerUpdate - 1)) //every nth tick of the timer
                 {
                     tetrisGame.Updade(); //apply gravity to the tetrimino
                     this.Refresh(); //repaint screen by calling frmCanvas_Paint()

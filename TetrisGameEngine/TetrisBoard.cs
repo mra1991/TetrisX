@@ -3,6 +3,8 @@
 //Mohammadreza Abolhassani 2034569      2023-03-09      Collision detection updated so that the tetriminos won't stick to the sides of the board anymore
 //Mohammadreza Abolhassani 2034569      2023-03-09      Tetrimino Rotation feature added
 //Mohammadreza Abolhassani 2034569      2023-03-09      Game over condition added
+//Mohammadreza Abolhassani 2034569      2023-03-09      Level system added
+
 
 using System;
 using System.Collections.Generic;
@@ -21,7 +23,10 @@ namespace TetrisGameEngine
         private int giScore; //global integer for score 
         private Tetrimino currentTetrimino; //the current tetrimono the player has controll over
         private bool gbGameOver; //is the game over or not
-
+        private int giLevel; //starting at level one, int each level that number of rows need to be completed
+        private int giRowsCompleted; //the number of rows completed in this level
+        private int giTicksPerUpdate; //the number of ticks of the timer between game updates
+        const int MAX_TICK_PER_UPDATE = 64; //initial value for ticks per update
 
         //read only property for background color
         public Color BackgroundColor { get => Color.Gray; }
@@ -30,6 +35,8 @@ namespace TetrisGameEngine
         public int GravitySpeed { get => giGravitySpeed; set => giGravitySpeed = value; }
         public bool GameOver { get => gbGameOver; }
 
+        public int TicksPerUpdate { get => giTicksPerUpdate; }
+
         //read only outside access to the grid
         public Color[,] TetrisGrid { get => tetrisGrid; }
 
@@ -37,6 +44,8 @@ namespace TetrisGameEngine
 
         //giving the view read only access to score
         public int Score { get => giScore; }
+
+        public int Level { get => giLevel; }
 
         //the dimentions of the grid are required to create the object. wind speed optional
         public TetrisBoard(int piWidth, int piHeight, int piGravSpeed = 0)
@@ -50,6 +59,9 @@ namespace TetrisGameEngine
         {
             giScore = 0; //reset score
             gbGameOver = false; //make sure gemaOver is not true
+            giLevel = 1; //start at level 1;
+            giRowsCompleted = 0; //0 rows completed in this level
+            giTicksPerUpdate = MAX_TICK_PER_UPDATE; //set the time between updated to maximum
 
             //create the array of color representing the grid
             tetrisGrid = new Color[giWidth, giHeight];
@@ -67,9 +79,9 @@ namespace TetrisGameEngine
             GenerateTetrimino();
         }
 
-        public void AddScore()
+        public void AddScore(int piScore)
         {
-            giScore++;
+            giScore += piScore;
         }
 
         private bool DoesCollide(Tetrimino poTetrimino)
@@ -134,10 +146,18 @@ namespace TetrisGameEngine
                         isLineFull = false;
                     }
                 }
-                if (isLineFull)
+                if (isLineFull) //if a full row has been found
                 {
-                    OmmitLine(y);
-                    AddScore();
+                    OmmitLine(y); //omit the row
+                    AddScore(100); //add 100 scores
+                    giRowsCompleted++; //increase the number of rows completed in this level
+                    if(giRowsCompleted == giLevel) //if the level goal has been reached
+                    {
+                        giLevel++; //level up
+                        giRowsCompleted = 0; //no rows completed in the new level yet
+                        if(giTicksPerUpdate >= 2)
+                            giTicksPerUpdate /= 2; //if possible, double the speed of the game 
+                    }
                 }
             }
         }
@@ -185,7 +205,7 @@ namespace TetrisGameEngine
                 //generate a new tetrimino as current tetrimino
                 GenerateTetrimino();
                 //add score
-                AddScore();
+                AddScore(1);
             }
             else
             {
