@@ -5,6 +5,8 @@
 //Mohammadreza Abolhassani 2034569      2023-03-09      Keyboard hints added to the form
 //Mohammadreza Abolhassani 2034569      2023-03-09      Game over condition and restart button added
 //Mohammadreza Abolhassani 2034569      2023-03-09      Level system added
+//Mohammadreza Abolhassani 2034569      2023-03-09      Feature showing next tetrimino in line added
+
 
 using System;
 using System.Collections.Generic;
@@ -21,9 +23,11 @@ namespace TetrisX_2034569
 {
     public partial class frmCanvas : Form
     {
-        const int PIXEL_SIZE = 20; //how many real pixels on the screen is a square on our grid
-        const int LEFT_OFFSET_PIXELS = 250; //how many pixels from the left of the form is the grid drawn
-        const int TOP_OFFSET_PIXELS = 15; //how many pixels from the top of the form is the grid drawn
+        const int PIXEL_SIZE = 20; //how many real pixels on the screen is a square on our grids
+        const int LEFT_OFFSET_PIXELS = 250; //how many pixels from the left of the form is the main grid drawn
+        const int TOP_OFFSET_PIXELS = 15; //how many pixels from the top of the form is the main grid drawn
+        const int NEXT_LEFT_OFFSET = 50; //how many pixels from the left of the form is the next tetrimino grid drawn
+        const int NEXT_TOP_OFFSET = 200; //how many pixels from the top of the form is the next tetrimino grid drawn
         TetrisBoard tetrisGame = new TetrisBoard(25, 39, 1);
         int tickCounter; //how many times has the timer ticked since last reset
         public bool isPaused { get => !tmrUpdate.Enabled; }
@@ -54,6 +58,14 @@ namespace TetrisX_2034569
                 }
             }
 
+            //draw a 3 by 4 grid for next tetrimino in line
+            SolidBrush sbBackground = new SolidBrush(tetrisGame.BackgroundColor);
+            for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 4; j++)
+                    //paint a filled square for the pixel. leave 2 real screen pixels between adjacent squares.
+                    g.FillRectangle(sbBackground, new Rectangle(NEXT_LEFT_OFFSET + i * PIXEL_SIZE + 1, NEXT_TOP_OFFSET + j * PIXEL_SIZE + 1, PIXEL_SIZE - 2, PIXEL_SIZE - 2));
+
+
             //display the score to the player
             lblScore.Text = "SCORE: " + tetrisGame.Score.ToString("D4");
 
@@ -79,10 +91,29 @@ namespace TetrisX_2034569
             }
         }
 
+        private void PaintNextTetrimino(Graphics g)
+        {
+            //going through the image pixel by pixel
+            for (int x = 0; x < tetrisGame.NextTetrimino.Width; x++)
+            {
+                for (int y = 0; y < tetrisGame.NextTetrimino.Height; y++)
+                {
+                    if (tetrisGame.NextTetrimino.ImageGrid[x, y].IsNamedColor) //if the current pixel in the image is set to a color (is not transparent)
+                    {
+                        //define a solid brush with the color set to the color of that pixel in the image  
+                        SolidBrush sb = new SolidBrush(tetrisGame.NextTetrimino.ImageGrid[x, y]);
+                        //paint a filled square for the pixel. leave 2 real screen pixels between adjacent squares.
+                        g.FillRectangle(sb, new Rectangle(NEXT_LEFT_OFFSET + x * PIXEL_SIZE + 1, NEXT_TOP_OFFSET + y * PIXEL_SIZE + 1, PIXEL_SIZE - 2, PIXEL_SIZE - 2));
+                    }
+                }
+            }
+        }
+
         private void frmCanvas_Paint(object sender, PaintEventArgs e)
         {
             PaintBoard(e.Graphics);
             PaintTetrimino(e.Graphics);
+            PaintNextTetrimino(e.Graphics);
         }
 
         private void tmrUpdate_Tick(object sender, EventArgs e)

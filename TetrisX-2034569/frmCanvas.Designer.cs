@@ -37,6 +37,7 @@ namespace TetrisX_2034569
             this.btnRestart = new System.Windows.Forms.Button();
             this.lblGameOver = new System.Windows.Forms.Label();
             this.lblLevel = new System.Windows.Forms.Label();
+            this.lblNext = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // tmrUpdate
@@ -49,7 +50,7 @@ namespace TetrisX_2034569
             // 
             this.lblScore.AutoSize = true;
             this.lblScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblScore.Location = new System.Drawing.Point(12, 9);
+            this.lblScore.Location = new System.Drawing.Point(27, 39);
             this.lblScore.Name = "lblScore";
             this.lblScore.Size = new System.Drawing.Size(152, 29);
             this.lblScore.TabIndex = 1;
@@ -59,7 +60,7 @@ namespace TetrisX_2034569
             // 
             this.lblPause.AutoSize = true;
             this.lblPause.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPause.Location = new System.Drawing.Point(27, 70);
+            this.lblPause.Location = new System.Drawing.Point(28, 128);
             this.lblPause.Name = "lblPause";
             this.lblPause.Size = new System.Drawing.Size(137, 29);
             this.lblPause.TabIndex = 2;
@@ -81,7 +82,7 @@ namespace TetrisX_2034569
             this.btnRestart.AutoSize = true;
             this.btnRestart.Enabled = false;
             this.btnRestart.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRestart.Location = new System.Drawing.Point(17, 114);
+            this.btnRestart.Location = new System.Drawing.Point(16, 160);
             this.btnRestart.Name = "btnRestart";
             this.btnRestart.Size = new System.Drawing.Size(163, 42);
             this.btnRestart.TabIndex = 4;
@@ -95,7 +96,7 @@ namespace TetrisX_2034569
             this.lblGameOver.AutoSize = true;
             this.lblGameOver.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGameOver.ForeColor = System.Drawing.Color.Red;
-            this.lblGameOver.Location = new System.Drawing.Point(16, 70);
+            this.lblGameOver.Location = new System.Drawing.Point(16, 128);
             this.lblGameOver.Name = "lblGameOver";
             this.lblGameOver.Size = new System.Drawing.Size(164, 29);
             this.lblGameOver.TabIndex = 5;
@@ -106,11 +107,21 @@ namespace TetrisX_2034569
             // 
             this.lblLevel.AutoSize = true;
             this.lblLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLevel.Location = new System.Drawing.Point(11, 38);
+            this.lblLevel.Location = new System.Drawing.Point(28, 68);
             this.lblLevel.Name = "lblLevel";
             this.lblLevel.Size = new System.Drawing.Size(133, 29);
             this.lblLevel.TabIndex = 6;
             this.lblLevel.Text = "LEVEL: 01";
+            // 
+            // lblNext
+            // 
+            this.lblNext.AutoSize = true;
+            this.lblNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNext.Location = new System.Drawing.Point(20, 350);
+            this.lblNext.Name = "lblNext";
+            this.lblNext.Size = new System.Drawing.Size(162, 20);
+            this.lblNext.TabIndex = 7;
+            this.lblNext.Text = "NEXT TETRIMINO";
             // 
             // frmCanvas
             // 
@@ -118,6 +129,7 @@ namespace TetrisX_2034569
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1030, 674);
+            this.Controls.Add(this.lblNext);
             this.Controls.Add(this.lblLevel);
             this.Controls.Add(this.lblGameOver);
             this.Controls.Add(this.btnRestart);
@@ -143,6 +155,7 @@ namespace TetrisX_2034569
         private System.Windows.Forms.Button btnRestart;
         private System.Windows.Forms.Label lblGameOver;
         private System.Windows.Forms.Label lblLevel;
+        private System.Windows.Forms.Label lblNext;
     }
 }
 

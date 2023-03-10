@@ -4,6 +4,7 @@
 //Mohammadreza Abolhassani 2034569      2023-03-09      Tetrimino Rotation feature added
 //Mohammadreza Abolhassani 2034569      2023-03-09      Game over condition added
 //Mohammadreza Abolhassani 2034569      2023-03-09      Level system added
+//Mohammadreza Abolhassani 2034569      2023-03-09      Feature showing next tetrimino in line added
 
 
 using System;
@@ -21,6 +22,7 @@ namespace TetrisGameEngine
         private Color[,] tetrisGrid; //an array of colors with the above dimentions wich will be initialized with background color
         private int giGravitySpeed; //how fast the tetrimino will move vertically if left alone
         private int giScore; //global integer for score 
+        private Tetrimino nextTetrimino; //the next tetrimono in line
         private Tetrimino currentTetrimino; //the current tetrimono the player has controll over
         private bool gbGameOver; //is the game over or not
         private int giLevel; //starting at level one, int each level that number of rows need to be completed
@@ -41,6 +43,8 @@ namespace TetrisGameEngine
         public Color[,] TetrisGrid { get => tetrisGrid; }
 
         public Tetrimino CurrentTetrimino { get => currentTetrimino; }
+        public Tetrimino NextTetrimino { get => nextTetrimino; }
+
 
         //giving the view read only access to score
         public int Score { get => giScore; }
@@ -74,6 +78,9 @@ namespace TetrisGameEngine
                     tetrisGrid[x, y] = BackgroundColor;
                 }
             }
+
+            //create the first tetrimono of random kind and color   
+            nextTetrimino = Tetrimino.GenerateRandomTetrimino(Width / 2);
 
             //generate a new tetrimino
             GenerateTetrimino();
@@ -110,8 +117,10 @@ namespace TetrisGameEngine
 
         private void GenerateTetrimino()
         {
+            //bring the next tetramino in line to replace the current tetramino
+            currentTetrimino = nextTetrimino;
             //create a new tetrimono of random kind and color at top middle of the grid  
-            currentTetrimino = Tetrimino.GenerateRandomTetrimino(Width / 2);
+            nextTetrimino = Tetrimino.GenerateRandomTetrimino(Width / 2);
             if (DoesCollide(currentTetrimino))
                 gbGameOver = true;
         }
